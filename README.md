@@ -1,88 +1,115 @@
-# BlackScholes Option Pricing Model
+# Black-Scholes Model Implementation
 
-This project implements the Black-Scholes model to price European call and put options using Python. It provides both a theoretical overview and a practical implementation, including visualizations to demonstrate how option prices vary with different parameters.
+This repository contains a Python implementation of the Black-Scholes Model for option pricing. The implementation includes functions for calculating European call and put option prices, as well as option Greeks (Delta, Gamma, Theta, Vega).
 
-## Table of Contents
+## Features
 
-- [Overview](#overview)
-- [Project Structure](#project-structure)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Enhancements](#enhancements)
-- [Contributing](#contributing)
-- [License](#license)
-
-## Overview
-
-The Black-Scholes model is a widely used mathematical model for pricing European-style options. Its main formula for a call option is given by:
-
-\[
-C = S_0 \, N(d_1) - K e^{-rT} \, N(d_2)
-\]
-
-where:
-- \( S_0 \) is the current stock price.
-- \( K \) is the strike price.
-- \( T \) is the time to maturity (in years).
-- \( r \) is the risk-free interest rate.
-- \( \sigma \) is the volatility of the underlying asset.
-- \( N(\cdot) \) is the cumulative distribution function for a standard normal distribution.
-- \( d_1 \) and \( d_2 \) are defined as:
-
-\[
-d_1 = \frac{\ln(S_0/K) + (r + \sigma^2/2)T}{\sigma\sqrt{T}}, \quad d_2 = d_1 - \sigma\sqrt{T}.
-\]
-
-## Project Structure
-BlackScholes/
-├── README.md           # Overview, usage instructions, and project details
-├── LICENSE             # MIT License file
-├── .gitignore          # Files and directories to ignore in Git
-├── requirements.txt    # List of required Python packages
-├── black_scholes.py    # Contains functions for pricing European call and put options
-├── visualization.py    # Script for visualizing option prices based on varying parameters
-└── notebooks/          # (Optional) Jupyter notebooks for interactive demos and further analysis
-
+- European call and put option pricing
+- Option Greeks calculations (Delta, Gamma, Theta, Vega)
+- Comprehensive test suite
+- Example usage with sample parameters
 
 ## Installation
 
-1. **Clone the Repository:**
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/Black-Scholes-Model.git
+cd Black-Scholes-Model
+```
 
-   ```bash
-   git clone https://github.com/YourUsername/BlackScholes.git
-   cd BlackScholes
-2. **Set Up a Virtual Environment (Optional but Recommended):**
-
-   python -m venv env
-   source env/bin/activate  # On Windows: env\Scripts\activate
-
-3. **Install Dependencies:**
-
-   pip install -r requirements.txt
+2. Install the required packages:
+```bash
+pip install -r requirements.txt
+```
 
 ## Usage
 
-Run Pricing Calculations:
-  python black_scholes.py
+### Basic Usage
 
-Generate Visualizations:
-  python visualization.py
+```python
+from black_scholes import call_option_price, put_option_price, calculate_greeks
 
-## Enhancements
-Future updates may include:
+# Example parameters
+S = 100  # Current stock price
+K = 100  # Strike price
+T = 1    # Time to maturity (1 year)
+r = 0.05 # Risk-free interest rate
+sigma = 0.2  # Volatility
 
-Calculating and visualizing the Greeks (Delta, Gamma, Theta, Vega, and Rho)
+# Calculate option prices
+call_price = call_option_price(S, K, T, r, sigma)
+put_price = put_option_price(S, K, T, r, sigma)
 
-Implementing Monte Carlo simulations for option pricing
+# Calculate Greeks
+greeks = calculate_greeks(S, K, T, r, sigma)
 
-Integrating real market data for implied volatility estimation
+print(f"Call Option Price: {call_price:.4f}")
+print(f"Put Option Price: {put_price:.4f}")
+print("\nGreeks:")
+for greek, value in greeks.items():
+    print(f"{greek}: {value:.4f}")
+```
 
-Building an interactive dashboard with Plotly Dash or Streamlit
+### Available Functions
 
-## Contributing
+1. `calculate_d1(S, K, T, r, sigma)`: Calculates the d1 parameter
+2. `calculate_d2(d1, sigma, T)`: Calculates the d2 parameter
+3. `call_option_price(S, K, T, r, sigma)`: Calculates European call option price
+4. `put_option_price(S, K, T, r, sigma)`: Calculates European put option price
+5. `calculate_greeks(S, K, T, r, sigma)`: Calculates option Greeks
 
-Contributions are welcome! Please open an issue or submit a pull request if you have improvements, bug fixes, or new features to suggest.
+### Parameters
+
+- `S`: Current stock price
+- `K`: Strike price
+- `T`: Time to maturity (in years)
+- `r`: Risk-free interest rate
+- `sigma`: Volatility
+
+### Running Tests
+
+To run the test suite:
+```bash
+python -m pytest test_black_scholes.py
+```
+
+## Mathematical Background
+
+The Black-Scholes Model is based on the following assumptions:
+1. The stock price follows a geometric Brownian motion
+2. The risk-free interest rate is constant
+3. The stock pays no dividends
+4. The option is European (can only be exercised at expiration)
+5. The market is efficient and frictionless
+
+### Option Pricing Formulas
+
+Call Option Price:
+```
+C = S * N(d1) - K * e^(-rT) * N(d2)
+```
+
+Put Option Price:
+```
+P = K * e^(-rT) * N(-d2) - S * N(-d1)
+```
+
+Where:
+- d1 = (ln(S/K) + (r + σ²/2)T) / (σ√T)
+- d2 = d1 - σ√T
+- N(x) is the cumulative distribution function of the standard normal distribution
+
+## Dependencies
+
+- numpy >= 1.21.0
+- scipy >= 1.7.0
+- matplotlib >= 3.4.0
+- pandas >= 1.3.0
 
 ## License
 
-This README provides an overview of the project, setup instructions, usage details, and guidelines for future enhancements and contributions. Feel free to modify it to better suit your needs.
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
