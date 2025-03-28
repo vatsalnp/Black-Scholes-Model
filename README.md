@@ -34,4 +34,12 @@ d_1 = \frac{\ln(S_0/K) + (r + \sigma^2/2)T}{\sigma\sqrt{T}}, \quad d_2 = d_1 - \
 \]
 
 ## Project Structure
+BlackScholes/
+├── README.md           # Overview, usage instructions, and project details
+├── LICENSE             # MIT License file
+├── .gitignore          # Files and directories to ignore in Git
+├── requirements.txt    # List of required Python packages
+├── black_scholes.py    # Contains functions for pricing European call and put options
+├── visualization.py    # Script for visualizing option prices based on varying parameters
+└── notebooks/          # (Optional) Jupyter notebooks for interactive demos and further analysis
 
